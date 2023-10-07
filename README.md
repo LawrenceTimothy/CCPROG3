@@ -1,2 +1,0 @@
-# CCPROG3
-DUMP MP
