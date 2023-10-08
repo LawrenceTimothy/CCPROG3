@@ -7,23 +7,26 @@ public class Area {
     public Area(int width, int height) {
         this.width = width;
         this.height = height;
+        currentPositionX = 0;
+        currentPositionY = 0;
+    }
+
+    public int getWidth() {
+        return width;
     }
 
     public String getCurrentPosition() {
-        return "[" + currentPositionX + ", " + currentPositionY + "]";
+        return "[" + (currentPositionX + 1) + ", " + (currentPositionY + 1) + "]";
     }
 
     public boolean move(int direction) {
         switch(direction) {
             case 1: // UP
-                if (currentPositionY > 0) {
-                    currentPositionY--;
-                    return true;
-                }
-                break;
+                System.out.println("out-of-bounds!"); // For Area 1 
+                    return false;
             case 2: // LEFT
                 if (currentPositionX > 0) {
-                    currentPositionY--;
+                    currentPositionX--;
                     return true;
                 }
                 break;
@@ -34,11 +37,7 @@ public class Area {
                 }
                 break;
             case 4: // DOWN
-                if (currentPositionY < height - 1) {
-                    currentPositionY++;
-                    return true;
-                }
-                break;
+                System.out.println("out-of-bounds!"); // For Area 1 
         }
         return false;
     }
