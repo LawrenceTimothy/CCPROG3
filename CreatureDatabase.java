@@ -1,8 +1,15 @@
 import java.util.ArrayList;
 
+/**
+ * Represents a database of creatures, specifically for evolution level 1 (EL1) creatures.
+ */
 public class CreatureDatabase {
+    /** The list of EL1 creatures in the database. */
     public final ArrayList<Creature> EL1_CREATURES;
 
+    /**
+     * Creates a new creature database with the list of EL1 creatures.
+     */
     public CreatureDatabase() {
         EL1_CREATURES = new ArrayList<Creature>();
 

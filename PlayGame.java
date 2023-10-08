@@ -1,11 +1,25 @@
 import java.util.Scanner;
 
+/**
+ * Handles the game flow and character interactions for "Pokemon version 2.0".
+ */
 public class PlayGame {
+    /** The character of the player. */
     private Character character;
+
+    /** The area where the character is currently in. */
     private final Area area1 = new Area(5, 1);
+
+    /** The scanner used to read user input. */
     private final Scanner scanner = new Scanner(System.in);
+
+    /** The database of creatures. */
     private final CreatureDatabase creatureDatabase = new CreatureDatabase();
 
+    /**
+     * Starts the game, guides the user through the character setup,
+     * and allows exploration.
+     */
     public void startGame() {
         int creatureIndex = 1;
         int choice = -1;
@@ -75,6 +89,9 @@ public class PlayGame {
         System.out.println("Thank you for playing!");
     }
 
+    /**
+     * Allows the character to explore Area 1, with a chance to encounter creatures.
+     */
     private void exploreArea1() {
         boolean exploring = true;
         
@@ -110,6 +127,9 @@ public class PlayGame {
         }
     }
 
+    /**
+     * Allows the character to view their inventory and change their active creature.
+     */
     private void viewInventory() {
         boolean viewing = true;
     
@@ -146,6 +166,9 @@ public class PlayGame {
         }
     }
     
+    /**
+     * Allows the character to change their active creature.
+     */
     private void changeActiveCreature() {
         System.out.println("\nChoose a creature to set as active:");
     
