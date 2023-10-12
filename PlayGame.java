@@ -112,16 +112,10 @@ public class PlayGame {
                 // 40% chance of encountering a creature
                 if (Math.random() < 0.4) {
                     Creature encounteredCreature = creatureDatabase.EL1_CREATURES.get((int) (Math.random() * creatureDatabase.EL1_CREATURES.size()));
-                    System.out.println("You have encountered: " + encounteredCreature.getName() + " Type: " + encounteredCreature.getType());
-                    System.out.print("\nWould you like to add it to your inventory? (Y/N): ");
-                    String encChoice = scanner.nextLine();
-
-                    if (encChoice.equalsIgnoreCase("Y")) {
-                        character.getInventory().addCreature(encounteredCreature);
-                        System.out.println(encounteredCreature.getName() + " has been added to your inventory!");
-                    } else {
-                        System.out.println("You chose not to add " + encounteredCreature.getName() + " to your inventory.");
-                    }
+                    System.out.println("\nYou encountered a " + encounteredCreature.getName() + " Type: " + encounteredCreature.getType());
+                    BattlePhase battle = new BattlePhase(encounteredCreature, character);
+                    battle.start();
+                    continue;
                 }
             }
         }
@@ -194,4 +188,8 @@ public class PlayGame {
         }
     } 
 }
+
+
+
+
 
