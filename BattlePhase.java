@@ -9,8 +9,8 @@ public class BattlePhase {
     private final Character player;
     private int enemyHealth;
     private int actionsLeft;
-    private final Scanner scanner = new Scanner(System.in);
-    private final Random random = new Random();
+    private Scanner scanner = new Scanner(System.in);
+    private Random random = new Random();
 
     /**
      * Creates a new battle phase with the given enemy creature and player.
@@ -36,23 +36,26 @@ public class BattlePhase {
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1:
+                    this.actionsLeft--;
                     attack();
                     break;
                 case 2:
+                    this.actionsLeft--;
                     swap();
                     break;
                 case 3:
+                    this.actionsLeft--;
                     catchCreature();
                     if (actionsLeft == 0) return;
                     break;
                 case 4:
+                    this.actionsLeft = 0;
                     runAway();
                     break;
                 default:
                     System.out.println("Invalid choice.");
                     break;
             }
-            actionsLeft--;
         }
         if (actionsLeft == 0) {
             System.out.println("\nYou have no actions left.");
@@ -67,11 +70,11 @@ public class BattlePhase {
         damage *= player.getInventory().getActiveCreature().getEvolutionLevel(); //AC_EL
 
         //Type advantage
-        Type playerType = player.getInventory().getActiveCreature().getType();
-        Type enemyType = enemy.getType();
-        if ((playerType.equals(Type.FIRE) && enemyType.equals(Type.GRASS)) ||
-            (playerType.equals(Type.GRASS) && enemyType.equals(Type.WATER)) ||
-            (playerType.equals(Type.WATER) && enemyType.equals(Type.FIRE))) {
+        String playerType = player.getInventory().getActiveCreature().getType();
+        String enemyType = enemy.getType();
+        if ((playerType.equals("FIRE") && enemyType.equals("GRASS")) ||
+            (playerType.equals("GRASS") && enemyType.equals("WATER")) ||
+            (playerType.equals("WATER") && enemyType.equals("FIRE"))) {
             damage *= 1.5;
         }
         enemyHealth -= damage;

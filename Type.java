@@ -3,13 +3,13 @@
  */
 public class Type {
     /** Represents the FIRE type. */
-    public static final Type FIRE = new Type("FIRE");
+    private final String FIRE = new String("FIRE");
 
     /** Represents the WATER type. */
-    public static final Type WATER = new Type("WATER");
+    private final String WATER = new String("WATER");
 
     /** Represents the GRASS type. */
-    public static final Type GRASS = new Type("GRASS");
+    private final String GRASS = new String("GRASS");
 
     /** The name of the type. */
     private String Type;
@@ -18,7 +18,7 @@ public class Type {
      * Private constructor to ensure are only created within this class.
      * @param Type The name of the type.
      */
-    private Type(String Type) {
+    private Type (String Type) {
         this.Type = Type;
     }
 
@@ -32,8 +32,8 @@ public class Type {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || obj.getClass() != this.getClass()) return false;
-        Type type = (Type) obj;
-        return Type.equals(type.Type);
+        String type = (String) obj;
+        return Type.equals(type);
     }
     
 

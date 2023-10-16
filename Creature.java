@@ -6,7 +6,7 @@ public class Creature {
     private String name;
 
     /** The type of the creature. */
-    private Type type;
+    private String type;
 
     /** The family of the creature. */
     private String family;
@@ -23,7 +23,7 @@ public class Creature {
      * @param family The family of the creature.
      * @param evolutionLevel The evolution level of the creature.
      */
-    public Creature(String name, Type type, String family, int evolutionLevel) {
+        public Creature(String name, String type, String family, int evolutionLevel) {
         this.name = name;
         this.type = type;
         this.family = family;
@@ -44,8 +44,8 @@ public class Creature {
      * 
      * @return The type of the creature.
      */
-    public Type getType() {
-        return type;
+    public String getType() {
+        return this.type;
     }
 
     /**
