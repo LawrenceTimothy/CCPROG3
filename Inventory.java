@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Represents an inventory containing a list of creatures and an active creature.
@@ -44,12 +46,27 @@ public class Inventory {
         }
     }
 
+    public void removeCreature(Creature creature) {
+        creatures.remove(creature);
+    }
+
     /**
      * Returns the list of creatures in the inventory.
      * 
      * @return The list of creatures in the inventory.
      */
     public ArrayList<Creature> getCreatures() {
-        return creatures;
+        ArrayList<Creature> sortedCreatures = new ArrayList<>(creatures);
+        Collections.sort(sortedCreatures, new Comparator<Creature>() {
+            public int compare(Creature c1, Creature c2) {
+                int nameComparison = c1.getName().compareTo(c2.getName());
+                if (nameComparison != 0) {
+                    return nameComparison;
+                } else {
+                    return Integer.compare(c1.getEvolutionLevel(), c2.getEvolutionLevel());
+                }
+            }
+        });
+        return sortedCreatures;
     }
 }

@@ -3,18 +3,18 @@
  * Represents the area with specified width and height. The current position
  * within the are can be modified by moving up, down, left, or right.
  */
-public class Area {
+public abstract class Area {
     /** The width of the area.*/
-    private final int width;
+    protected int width;
 
     /** The height of the area.*/
-    private final int height;
+    protected int height;
 
     /** The current position of the character in the area.*/
-    private int currentPositionX;
+    protected int currentPositionX;
 
     /** The current position of the character in the area.*/
-    private int currentPositionY;
+    protected int currentPositionY;
 
 
     /**
@@ -60,8 +60,10 @@ public class Area {
     public boolean move(int direction) {
         switch(direction) {
             case 1: // UP
-                System.out.println("out-of-bounds!"); // For Area 1 
-                    return false;
+                if (currentPositionY > 0) {
+                    currentPositionY--;
+                    return true;
+                }
             case 2: // LEFT
                 if (currentPositionX > 0) {
                     currentPositionX--;
@@ -75,8 +77,14 @@ public class Area {
                 }
                 break;
             case 4: // DOWN
-                System.out.println("out-of-bounds!"); // For Area 1 
+                if (currentPositionY < height - 1) {
+                    currentPositionY++;
+                    return true;
+                }
+                break;
         }
         return false;
     }
+
+    public abstract int getMaxCreatures();
 }

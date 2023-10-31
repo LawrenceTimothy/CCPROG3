@@ -1,4 +1,9 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+
 
 /**
  * Handles the game flow and character interactions for "Pokemon version 2.0".
@@ -8,7 +13,11 @@ public class PlayGame {
     private Character character;
 
     /** The area where the character is currently in. */
-    private final Area area1 = new Area(5, 1);
+    private final Area area1 = new Area1();
+
+    private final Area area2 = new Area2();
+
+    private final Area area3 = new Area3();
 
     /** The scanner used to read user input. */
     private final Scanner scanner = new Scanner(System.in);
@@ -67,19 +76,31 @@ public class PlayGame {
         while(gameRunning) {
             System.out.println("\nWhat would you like to do?");
             System.out.println("1. Explore (Area 1)");
-            System.out.println("2. Check inventory");
-            System.out.println("3. Quit");
+            System.out.println("2. Explore (Area 2)");
+            System.out.println("3. Explore (Area 3)");
+            System.out.println("4. Check inventory");
+            System.out.println("5. Evolve Creatures");
+            System.out.println("6. Quit");
             System.out.print("Enter the number corresponding to your choice: ");
             choice = scanner.nextInt();
 
             switch (choice) {
                 case 1:
-                    exploreArea1();
+                    exploreArea(area1);
                     break;
                 case 2:
-                    viewInventory();
+                    exploreArea(area2);
                     break;
                 case 3:
+                    exploreArea(area3);
+                    break;
+                case 4:
+                    viewInventory();
+                    break;
+                case 5:
+                    evolveCreatures();
+                    break;
+                case 6:
                     gameRunning = false;
                     break;
                 default:
@@ -92,13 +113,13 @@ public class PlayGame {
     /**
      * Allows the character to explore Area 1, with a chance to encounter creatures.
      */
-    private void exploreArea1() {
+    private void exploreArea(Area area) {
         boolean exploring = true;
         
         while (exploring) {
 
-            System.out.println("\nYou are now exploring Area 1.");
-            System.out.println("\nYou are at position " + area1.getCurrentPosition());
+            System.out.println("\nYou are now exploring Area " + area.getClass().getSimpleName());
+            System.out.println("\nYou are at position " + area.getCurrentPosition());
             System.out.println("\n        (1)UP  \n(2)LEFT        (3)RIGHT\n        (4)DOWN\n\nType '0' to go back to menu.");
             System.out.print("\nEnter the number corresponding to your choice: ");
             int direction = scanner.nextInt();
@@ -106,20 +127,36 @@ public class PlayGame {
 
             if (direction == 0) {
                 exploring = false;
-            } else if (area1.move(direction)) {
-                System.out.println("\nYou moved to position " + area1.getCurrentPosition());
+            } else {
+                boolean moved = area.move(direction);
+                if (moved) {
+                    System.out.println("You moved to position " + area.getCurrentPosition());
 
-                // 40% chance of encountering a creature
-                if (Math.random() < 0.4) {
-                    Creature encounteredCreature = creatureDatabase.EL1_CREATURES.get((int) (Math.random() * creatureDatabase.EL1_CREATURES.size()));
-                    System.out.println("\nYou encountered a " + encounteredCreature.getName() + " Type: " + encounteredCreature.getType());
-                    BattlePhase battle = new BattlePhase(encounteredCreature, character);
-                    battle.start();
-                    continue;
-                }
-            }
+                    // 40% chance to encounter a creature
+                    if (Math.random() < 0.4) {
+                        ArrayList<Creature> potentialCreatures = new ArrayList<>();
+                        int maxEvolutionLevel = area.getMaxCreatures();
+
+                        if (maxEvolutionLevel >= 1) {
+                            potentialCreatures.addAll(creatureDatabase.EL1_CREATURES);
+                        }
+                        if (maxEvolutionLevel >= 2) {
+                            potentialCreatures.addAll(creatureDatabase.EL2_CREATURES);
+                        }
+                        if (maxEvolutionLevel >= 3) {
+                            potentialCreatures.addAll(creatureDatabase.EL3_CREATURES);
+                        }
+
+                        Creature encounteredCreature = potentialCreatures.get((int) (Math.random() * potentialCreatures.size()));
+                        System.out.println("\nYou encountered a wild " + encounteredCreature.getName() + " | TYPE: "+ encounteredCreature.getType() + " | Evolution Level: " + encounteredCreature.getEvolutionLevel() + " | ");
+                        BattlePhase battlePhase = new BattlePhase(encounteredCreature, character);
+                        battlePhase.start();
+                        }
+                    } 
+                }   
         }
     }
+
 
     /**
      * Allows the character to view their inventory and change their active creature.
@@ -184,5 +221,74 @@ public class PlayGame {
                 System.out.println("Invalid number choice. Please try again.");
             }
         }
-    } 
+    }
+
+
+    private Creature getEvolvedCreatureUsingMap (Creature currentCreature) {
+        String evolvedCreatureName = EVOLUTION_MAP.get(getEvolutionKey(currentCreature));
+        return new Creature(evolvedCreatureName, currentCreature.getType(), currentCreature.getFamily(), currentCreature.getEvolutionLevel() + 1);
+    }
+
+    private String getEvolutionKey (Creature creature) {
+        return creature.getType() + "_" + creature.getFamily() + "_" + creature.getEvolutionLevel();
+    }
+
+    private static final Map<String, String> EVOLUTION_MAP;
+    static {
+        Map<String, String> tempMap = new HashMap<>();
+        tempMap.put ("FIRE_A_2", "Strawleon");
+        tempMap.put ("FIRE_A_3", "Strawizard");
+        tempMap.put ("FIRE_B_2", "Chocofluff");
+        tempMap.put ("FIRE_B_3", "Candaros");
+        tempMap.put ("FIRE_C_2", "Parfure");
+        tempMap.put ("FIRE_C_3", "Parfelure");
+        tempMap.put ("GRASS_D_2", "Chocosaur");
+        tempMap.put ("GRASS_D_3", "Fudgasaurs");
+        tempMap.put ("GRASS_E_2", "Golberry");
+        tempMap.put ("GRASS_E_3", "Croberry");
+        tempMap.put ("GRASS_F_2", "Kirlcake");
+        tempMap.put ("GRASS_F_3", "Velvevoir");
+        tempMap.put ("WATER_G_2", "Tartortle");
+        tempMap.put ("WATER_G_3", "Piestoise");
+        tempMap.put ("WATER_H_2", "Chocolish");
+        tempMap.put ("WATER_H_3", "Icesundae");
+        tempMap.put ("WATER_I_2", "Dewice");
+        tempMap.put ("WATER_I_3", "Samurcone");
+
+        EVOLUTION_MAP = Collections.unmodifiableMap(tempMap);
+    }
+
+    private void evolveCreatures() {
+        System.out.println("\nChoose TWO creatures from your inventory to evolve: ");
+
+        int currentIndex = 1;
+        for (Creature creature : character.getInventory() .getCreatures()) {
+            System.out.println(currentIndex + ". Name: " + creature.getName() + ", Type: " + creature.getType() + ", Family: " + creature.getFamily() + ", Evolution Level: " + creature.getEvolutionLevel());
+            currentIndex++;
+        }
+            System.out.print("\nSelect the FIRST creature (by number): ");
+            int firstChoice = scanner.nextInt();
+            System.out.print("\nSelect the SECCOND creature (by number): ");
+            int secondChoice = scanner.nextInt();
+
+            Creature creature1 = character.getInventory().getCreatures().get(firstChoice - 1);
+            Creature creature2 = character.getInventory().getCreatures().get(secondChoice - 1);
+
+            // Check if the creatures are eligible for evolution
+            if (creature1.getFamily().equals(creature2.getFamily()) && 
+                creature1.getEvolutionLevel() == creature2.getEvolutionLevel() &&
+                creature1.getEvolutionLevel() < 3) {
+                    // Evolve the creatures
+                    Creature evolvedCreature = getEvolvedCreatureUsingMap(creature1);
+
+                    // Remove the old creatures from the inventory
+                    character.getInventory().removeCreature(creature1);
+                    character.getInventory().removeCreature(creature2);
+                    character.getInventory().addCreature(evolvedCreature);
+
+                    System.out.println("\nCongatulations! Your creatures have evolved into " + evolvedCreature.getName() + "!");
+                } else {
+                    System.out.println("\nYour creatures are not eligible for evolution.");
+                }
+    }
 }

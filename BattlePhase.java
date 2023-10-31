@@ -97,7 +97,10 @@ public class BattlePhase {
 
             int currentIndex = 1;
             for (Creature creature : player.getInventory().getCreatures()) {
-                String activeIndicator = creature.equals(player.getInventory().getActiveCreature()) ? " (Currently Active)" : "";
+                String activeIndicator = "";
+                if (creature.equals(player.getInventory().getActiveCreature())) {
+                    activeIndicator = " (Active)";
+                }
                 System.out.println(currentIndex + ". Name: " + creature.getName() + ", Type: " + creature.getType() + ", Family: " + creature.getFamily() + ", Evolution Level: "+ creature.getEvolutionLevel() + activeIndicator);
                 currentIndex++;
             }
