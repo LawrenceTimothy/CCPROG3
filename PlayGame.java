@@ -236,24 +236,24 @@ public class PlayGame {
     private static final Map<String, String> EVOLUTION_MAP;
     static {
         Map<String, String> tempMap = new HashMap<>();
-        tempMap.put ("FIRE_A_2", "Strawleon");
-        tempMap.put ("FIRE_A_3", "Strawizard");
-        tempMap.put ("FIRE_B_2", "Chocofluff");
-        tempMap.put ("FIRE_B_3", "Candaros");
-        tempMap.put ("FIRE_C_2", "Parfure");
-        tempMap.put ("FIRE_C_3", "Parfelure");
-        tempMap.put ("GRASS_D_2", "Chocosaur");
-        tempMap.put ("GRASS_D_3", "Fudgasaurs");
-        tempMap.put ("GRASS_E_2", "Golberry");
-        tempMap.put ("GRASS_E_3", "Croberry");
-        tempMap.put ("GRASS_F_2", "Kirlcake");
-        tempMap.put ("GRASS_F_3", "Velvevoir");
-        tempMap.put ("WATER_G_2", "Tartortle");
-        tempMap.put ("WATER_G_3", "Piestoise");
-        tempMap.put ("WATER_H_2", "Chocolish");
-        tempMap.put ("WATER_H_3", "Icesundae");
-        tempMap.put ("WATER_I_2", "Dewice");
-        tempMap.put ("WATER_I_3", "Samurcone");
+        tempMap.put ("FIRE_A_1", "Strawleon");
+        tempMap.put ("FIRE_A_2", "Strawizard");
+        tempMap.put ("FIRE_B_1", "Chocofluff");
+        tempMap.put ("FIRE_B_2", "Candaros");
+        tempMap.put ("FIRE_C_1", "Parfure");
+        tempMap.put ("FIRE_C_2", "Parfelure");
+        tempMap.put ("GRASS_D_1", "Chocosaur");
+        tempMap.put ("GRASS_D_2", "Fudgasaurs");
+        tempMap.put ("GRASS_E_1", "Golberry");
+        tempMap.put ("GRASS_E_2", "Croberry");
+        tempMap.put ("GRASS_F_1", "Kirlcake");
+        tempMap.put ("GRASS_F_2", "Velvevoir");
+        tempMap.put ("WATER_G_1", "Tartortle");
+        tempMap.put ("WATER_G_2", "Piestoise");
+        tempMap.put ("WATER_H_1", "Chocolish");
+        tempMap.put ("WATER_H_2", "Icesundae");
+        tempMap.put ("WATER_I_1", "Dewice");
+        tempMap.put ("WATER_I_2", "Samurcone");
 
         EVOLUTION_MAP = Collections.unmodifiableMap(tempMap);
     }

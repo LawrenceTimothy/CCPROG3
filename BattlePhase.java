@@ -96,13 +96,17 @@ public class BattlePhase {
             System.out.println("\nChoose a creature to swap with: ");
 
             int currentIndex = 1;
+            int active = 0;
+            Creature activeCreature = player.getInventory().getActiveCreature();
             for (Creature creature : player.getInventory().getCreatures()) {
                 String activeIndicator = "";
-                if (creature.equals(player.getInventory().getActiveCreature())) {
+                if (creature == activeCreature && active != 1) {
                     activeIndicator = " (Active)";
+                    active = 1;
                 }
                 System.out.println(currentIndex + ". Name: " + creature.getName() + ", Type: " + creature.getType() + ", Family: " + creature.getFamily() + ", Evolution Level: "+ creature.getEvolutionLevel() + activeIndicator);
                 currentIndex++;
+                activeIndicator = "";
             }
 
             boolean validChoice = false;

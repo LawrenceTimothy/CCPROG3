@@ -14,7 +14,7 @@ public class CreatureDatabase {
      */
     public CreatureDatabase() {
         EL1_CREATURES = new ArrayList<Creature>();
-        EL1_CREATURES.add(new Creature("Strawander", "FIRE", "A", 1));
+        EL1_CREATURES.add(new Creature("Strawmander", "FIRE", "A", 1));
         EL1_CREATURES.add(new Creature("Chocowool", "FIRE", "B", 1));
         EL1_CREATURES.add(new Creature("Parfit", "FIRE", "C", 1));
         EL1_CREATURES.add(new Creature("Brownisaur", "GRASS", "D", 1));
