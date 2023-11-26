@@ -1,7 +1,7 @@
 public class Area3 extends Area {
     private final int MAX_CREATURES = 3;
 
-    public Area3(){
+    public Area3() {
         super(4, 4);
     }
 

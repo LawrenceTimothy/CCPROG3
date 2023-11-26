@@ -1,3 +1,4 @@
+import java.util.Scanner;
 
 /**
  * Represents the area with specified width and height. The current position
@@ -84,6 +85,71 @@ public abstract class Area {
                 break;
         }
         return false;
+    }
+
+    /**
+     * Allows the character to explore Area 1, with a chance to encounter creatures.
+     */
+    public void exploreArea(Character character, CreaturesDescription creaturesInfo, Scanner scanner) {
+        boolean exploring = true;
+        
+        while (exploring) {
+
+            System.out.println("\nYou are now exploring " + this.getClass().getSimpleName());
+            System.out.println("\nYou are at position " + this.getCurrentPosition());
+            System.out.println("\n        (1)UP  \n(2)LEFT        (3)RIGHT\n        (4)DOWN\n\nType '0' to go back to menu.");
+            System.out.print("\nEnter the number corresponding to your choice: ");
+            int direction = scanner.nextInt();
+            scanner.nextLine();
+
+           // CreaturesDescription newcreatures = new CreaturesDescription(); // new creatures database
+
+            if (direction == 0) {
+                exploring = false;
+            } else {
+                boolean moved = this.move(direction);
+                if (moved) {
+                    System.out.println("You moved to position " + this.getCurrentPosition());
+                    
+                    // 40% chance to encounter a creature
+                    if (Math.random() < 0.4) {
+                        // Randomize a key from A to I
+                        char randomKey = (char) ('A' + Math.random() * 9);
+                        String key = String.valueOf(randomKey);
+
+                        // Determine the evolution level and generate creature
+                        switch (this.getMaxCreatures()) {
+                            case 1:
+                                creaturesInfo.generateEL1WithKey(key);
+                                break;
+                            case 2:
+                                creaturesInfo.generateEL2WithKey(key);
+                                break;
+                            case 3:
+                                // Randomize the evolution level from 1 to 3
+                                int randomLevel = 1 + (int) (Math.random() * 3);
+                                switch (randomLevel) {
+                                    case 1:
+                                        creaturesInfo.generateEL1WithKey(key);
+                                        break;
+                                    case 2:
+                                        creaturesInfo.generateEL2WithKey(key);
+                                        break;
+                                    case 3:
+                                        creaturesInfo.generateEL3WithKey(key);
+                                        break;
+                                }
+                                break;
+                        }
+
+                        Creature encounteredCreature = new Creature(creaturesInfo.getName(), creaturesInfo.getType(), creaturesInfo.getFamily(), creaturesInfo.getLevel());             
+                        System.out.println("\nYou encountered a wild " + encounteredCreature.getName() + " | TYPE: "+ encounteredCreature.getType() + " | Evolution Level: " + encounteredCreature.getEvolutionLevel() + " | ");
+                        BattlePhase battlePhase = new BattlePhase(encounteredCreature, character);
+                        battlePhase.start();
+                        }
+                    } 
+                }   
+        }
     }
 
     public abstract int getMaxCreatures();

@@ -1,3 +1,7 @@
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Represents a creature with a name, type, family, and evolution level.
  */
@@ -64,5 +68,42 @@ public class Creature {
      */
     public int getEvolutionLevel() {
         return evolutionLevel;
+    }
+
+    private static final Map<String, String> EVOLUTION_MAP;
+    static {
+        Map<String, String> tempMap = new HashMap<>();
+        tempMap.put ("FIRE_A_1", "STRAWLEON");
+        tempMap.put ("FIRE_A_2", "STRAWIZARD");
+        tempMap.put ("FIRE_B_1", "CHOCOFLUFF");
+        tempMap.put ("FIRE_B_2", "CANDAROS");
+        tempMap.put ("FIRE_C_1", "PARFURE");
+        tempMap.put ("FIRE_C_2", "PARFELURE");
+        tempMap.put ("GRASS_D_1", "CHOCOSAUR");
+        tempMap.put ("GRASS_D_2", "FUDGASAUR");
+        tempMap.put ("GRASS_E_1", "GOLBERRY");
+        tempMap.put ("GRASS_E_2", "CROBERRY");
+        tempMap.put ("GRASS_F_1", "KIRLCAKE");
+        tempMap.put ("GRASS_F_2", "VELVEVOIR");
+        tempMap.put ("WATER_G_1", "TARTORTLE");
+        tempMap.put ("WATER_G_2", "PIESTOISE");
+        tempMap.put ("WATER_H_1", "CHOCOLISH");
+        tempMap.put ("WATER_H_2", "ICESUNDAE");
+        tempMap.put ("WATER_I_1", "DEWICE");
+        tempMap.put ("WATER_I_2", "SAMURCONE");
+
+        EVOLUTION_MAP = Collections.unmodifiableMap(tempMap);
+    }
+
+    public static Creature getEvolvedCreatureUsingMap (Creature currentCreature) {
+        String evolvedCreatureName = EVOLUTION_MAP.get(getEvolutionKey(currentCreature));
+        if (evolvedCreatureName != null) {
+            return new Creature(evolvedCreatureName, currentCreature.getType(), currentCreature.getFamily(), currentCreature.getEvolutionLevel() + 1);
+        }
+        return null; //Handle the case where evolution is not possible
+    }
+
+    private static String getEvolutionKey (Creature creature) {
+        return creature.getType() + "_" + creature.getFamily() + "_" + creature.getEvolutionLevel();
     }
 }
