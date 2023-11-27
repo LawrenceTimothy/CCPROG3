@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -72,12 +73,11 @@ public class Inventory {
         ArrayList<Creature> sortedCreatures = new ArrayList<>(creatures);
         Collections.sort(sortedCreatures, new Comparator<Creature>() {
             public int compare(Creature c1, Creature c2) {
-                int nameComparison = c1.getName().compareTo(c2.getName());
-                if (nameComparison != 0) {
-                    return nameComparison;
-                } else {
-                    return Integer.compare(c1.getEvolutionLevel(), c2.getEvolutionLevel());
+                int evolutionLevelComparison = Integer.compare(c1.getEvolutionLevel(), c2.getEvolutionLevel());
+                if (evolutionLevelComparison != 0){
+                    return evolutionLevelComparison;
                 }
+                return c1.getName().compareTo(c2.getName());
             }
         });
         return sortedCreatures;
@@ -153,6 +153,11 @@ public class Inventory {
     }
 
     public void evolveCreatures(Character character, Scanner scanner, CreaturesDescription creaturesInfo) {
+        if (this.getCreatures().size() < 2) {
+            System.out.println("\nYou need at least two creatures to evolve.");
+            return; // return to the view inventory
+        }
+        
         System.out.println("\nChoose TWO creatures from your inventory to evolve: ");
 
         int currentIndex = 1;
@@ -160,10 +165,17 @@ public class Inventory {
             System.out.println(currentIndex + ". Name: " + creature.getName() + ", Type: " + creature.getType() + ", Family: " + creature.getFamily() + ", Evolution Level: " + creature.getEvolutionLevel());
             currentIndex++;
         }
+
+        try{
             System.out.print("\nSelect the FIRST creature (by number): ");
             int firstChoice = scanner.nextInt();
             System.out.print("\nSelect the SECCOND creature (by number): ");
             int secondChoice = scanner.nextInt();
+
+            if (firstChoice == secondChoice) {
+                System.out.println("\nYou cannot choose the same creature twice.");
+                return; // return to the view inventory
+            }
 
             Creature creature1 = this.getCreatures().get(firstChoice - 1);
             Creature creature2 = this.getCreatures().get(secondChoice - 1);
@@ -186,5 +198,12 @@ public class Inventory {
                 } else {
                     System.out.println("\nYour creatures are not eligible for evolution.");
                 }
+        } catch (InputMismatchException ime) {
+            System.out.println("\nInvalid input. Please try again.");
+            scanner.nextLine(); // Clear buffer
+        } catch (IndexOutOfBoundsException iobe) {
+            System.out.println("\nInvalid creature number. Please try again.");
+            scanner.nextLine(); // Clear buffer
+        }
     }
 }
