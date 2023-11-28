@@ -7,6 +7,8 @@ public class Area1Panel extends JPanel {
     private ImageIcon defaultAreaTileImage = new ImageIcon("grass.png");
     private ImageIcon creatureAreaTileImage = new ImageIcon("creature.png");
 
+    private Area1 area1 = new Area1();
+
     private JLabel creatureLabel;
     private JLabel coordinateLabel;
     private JButton leftButton;
@@ -63,6 +65,10 @@ public class Area1Panel extends JPanel {
         if (creaturePosition > 0) {
             creaturePosition--;
             updateCreaturePosition();
+            if (Math.random() < 0.4) {
+                BattlePhasePanel battlePhasePanel = new BattlePhasePanel("PlayerActiveCreature","EnemyCreature",area1);
+                battlePhasePanel.setVisible(true);
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Out of Bounds! Cannot move left.", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -73,6 +79,10 @@ public class Area1Panel extends JPanel {
         if (creaturePosition < 4) {
             creaturePosition++;
             updateCreaturePosition();
+            if (Math.random() < 0.4) {
+                BattlePhasePanel battlePhasePanel = new BattlePhasePanel("PlayerActiveCreature","EnemyCreature",area1);
+                battlePhasePanel.setVisible(true);
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Out of Bounds! Cannot move right.", "Error", JOptionPane.ERROR_MESSAGE);
         }
