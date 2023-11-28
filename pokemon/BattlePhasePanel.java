@@ -7,11 +7,18 @@ public class BattlePhasePanel extends JPanel {
     private String playerActiveCreature;
     private String enemyCreature;
     private CreaturesDescription enemyDescription;
+    private BattlePhase battlePhase;
+
     public BattlePhasePanel(String playerActiveCreature, String enemyCreature, Area1 area1) {
         this.playerActiveCreature = playerActiveCreature;
         this.enemyCreature = enemyCreature;
         this.enemyDescription = new CreaturesDescription();
         setLayout(new BorderLayout());
+
+        // Initialize battle phase instance
+        Character player = new Character(playerActiveCreature);
+        Creature enemy = new Creature(enemyDescription.getName(), enemyDescription.getType(), enemyDescription.getFamily(), enemyDescription.getLevel());
+        this.battlePhase = new BattlePhase(enemy, player);
 
         // Display enemy creature information
         JPanel enemyInfoPanel = createEnemyInfoPanel(area1);
@@ -80,7 +87,7 @@ public class BattlePhasePanel extends JPanel {
         attackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Add logic for attack
+                battlePhase.performAttack();
                 JOptionPane.showMessageDialog(null, "You attacked the enemy!");
             }
         });
@@ -88,7 +95,7 @@ public class BattlePhasePanel extends JPanel {
         swapButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Add logic for swapping active creature
+                battlePhase.performSwap();
                 JOptionPane.showMessageDialog(null, "You swapped the active creature.");
             }
         });
@@ -96,7 +103,7 @@ public class BattlePhasePanel extends JPanel {
         catchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Add logic for catching the enemy creature
+                battlePhase.performCatchCreature();
                 JOptionPane.showMessageDialog(null, "You caught the enemy creature!");
             }
         });
@@ -104,7 +111,7 @@ public class BattlePhasePanel extends JPanel {
         runButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Add logic for running from the battle
+                battlePhase.performRunAway();
                 JOptionPane.showMessageDialog(null, "You ran from the battle!");
             }
         });
