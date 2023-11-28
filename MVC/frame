@@ -1,0 +1,418 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class PokemonView extends JFrame {
+    private PokemonModel model;
+    private PokemonController controller;
+
+    private JPanel cards;
+    private CardLayout cardLayout;
+    private JLabel activeCreatureLabel;
+    private JButton startButton;
+    private JButton starterSelectionButton;
+
+    private ImageIcon welcomeBackground = new ImageIcon("welcome.png");
+
+    private ImageIcon backgroundImage = welcomeBackground;
+
+
+    private Area1Panel area1Panel; 
+    private Area2Panel area2Panel;
+    private Area3Panel area3Panel; 
+
+    public PokemonView(PokemonModel model) {
+        this.model = model;
+        setTitle("Pokemon Game");
+        setSize(800, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        cardLayout = new CardLayout();
+        cards = new JPanel(cardLayout);
+
+        JPanel welcomePanel = createWelcomePanel();
+        cards.add(welcomePanel, "Welcome");
+
+        JFrame createStarterSelection = createStarterSelectionFrame();
+        //cards.add(createStarterSelection, "Starter Selection");
+
+        JPanel mainMenuPanel = createMainMenuPanel();
+        cards.add(mainMenuPanel, "Main Menu");
+
+        JPanel explorationPanel = createExplorationPanel();
+        cards.add(explorationPanel, "Exploration");
+
+        setContentPane(cards);
+
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+
+    public void setController(PokemonController controller) {
+        this.controller = controller;
+    }
+    
+    public JPanel createWelcomePanel() {
+        JPanel welcomePanel = new JPanel(new BorderLayout()) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(backgroundImage.getImage(), 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+    
+        startButton = new JButton("Start Game");
+    
+        startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(cards, "Starter Selection");
+            }
+        });
+        welcomePanel.add(startButton, BorderLayout.SOUTH);
+    
+        return welcomePanel;
+    }
+    
+
+    public JFrame createStarterSelectionFrame() {
+        
+        JFrame createStarterSelectionFrame = new JFrame();
+
+        Map<String, String> creatureImages = new LinkedHashMap<>();
+
+        JButton StrawanderButton = new JButton(creatureImages.put("Strawander", "strawander.png")); 
+        JButton ChocowoolButton = new JButton(creatureImages.put("Chocowool", "chocowool.png")); 
+        JButton ParfwitButton = new JButton(creatureImages.put("Parfwit", "parfwit.png")); 
+        JButton BrownisaurButton = new JButton(creatureImages.put("Brownisaur", "brownisaur.png")); 
+        JButton FrubatButton = new JButton(creatureImages.put("Frubat", "frubat.png")); 
+        JButton MaltsButton = new JButton(creatureImages.put("Malts", "malts.png")); 
+        JButton SquirpieButton = new JButton(creatureImages.put("Squirpie", "squirpie.png")); 
+        JButton ChocoliteButton = new JButton(creatureImages.put("Chocolite", "chocolite.png"));
+        JButton OshaconeButton = new JButton(creatureImages.put("Oshacone", "oshacone.png"));
+
+        int currentCreatureCount = 0;
+
+        for (Map.Entry<String, String> entry : creatureImages.entrySet()) {
+            String creature = entry.getKey();
+            String imagePath = entry.getValue();
+
+            // Create a panel for each creature, containing a button and label
+
+            // Load the image for the creature
+            ImageIcon creatureImage = new ImageIcon(imagePath);
+            JLabel imageLabel = new JLabel(creatureImage);
+            JPanel creaturePanel = new JPanel(new BorderLayout());
+            creaturePanel.add(imageLabel, BorderLayout.CENTER);
+            
+
+            createStarterSelectionFrame.add(creaturePanel);
+            currentCreatureCount++;
+
+            // Check if the first row is filled
+            if (currentCreatureCount % 4 == 0) {
+                createStarterSelectionFrame.setLayout(new GridLayout(2, 5));
+            }
+        }
+
+        JPanel creaturePanel1 = new JPanel(new BorderLayout());
+        JPanel creaturePanel2 = new JPanel(new BorderLayout());
+        JPanel creaturePanel3 = new JPanel(new BorderLayout());
+        JPanel creaturePanel4 = new JPanel(new BorderLayout());
+        JPanel creaturePanel5 = new JPanel(new BorderLayout());
+        JPanel creaturePanel6 = new JPanel(new BorderLayout());
+        JPanel creaturePanel7 = new JPanel(new BorderLayout());
+        JPanel creaturePanel8 = new JPanel(new BorderLayout());
+        JPanel creaturePanel9 = new JPanel(new BorderLayout());
+
+        creaturePanel1.add(StrawanderButton, BorderLayout.SOUTH);
+        creaturePanel2.add(ChocowoolButton, BorderLayout.SOUTH);
+        creaturePanel3.add(ParfwitButton, BorderLayout.SOUTH);
+        creaturePanel4.add(BrownisaurButton, BorderLayout.SOUTH);
+        creaturePanel5.add(FrubatButton, BorderLayout.SOUTH);
+        creaturePanel6.add(MaltsButton, BorderLayout.SOUTH);
+        creaturePanel7.add(SquirpieButton, BorderLayout.SOUTH);
+        creaturePanel8.add(ChocoliteButton, BorderLayout.SOUTH);
+        creaturePanel9.add(OshaconeButton, BorderLayout.SOUTH);
+        
+        createStarterSelectionFrame.add(creaturePanel1);
+        createStarterSelectionFrame.add(creaturePanel2);
+        createStarterSelectionFrame.add(creaturePanel3);
+        createStarterSelectionFrame.add(creaturePanel4);
+        createStarterSelectionFrame.add(creaturePanel5);
+        createStarterSelectionFrame.add(creaturePanel6);
+        createStarterSelectionFrame.add(creaturePanel7);
+        createStarterSelectionFrame.add(creaturePanel8);
+        createStarterSelectionFrame.add(creaturePanel9);
+
+        StrawanderButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Creature selectedStarterCreatureObject = new Creature("STRAWANDER", "FIRE", "A", 1);
+                    controller.selectedStarterCreature(selectedStarterCreatureObject);
+                    cardLayout.show(cards, "Main Menu");
+                }
+            });
+            
+
+            ChocowoolButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Creature selectedStarterCreatureObject = new Creature("CHOCOWOOL", "FIRE","B", 1);
+                    controller.selectedStarterCreature(selectedStarterCreatureObject);
+                    cardLayout.show(cards, "Main Menu");
+                }
+            });
+
+             ParfwitButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Creature selectedStarterCreatureObject = new Creature("PARFWIT", "FIRE", "C", 1);
+                    controller.selectedStarterCreature(selectedStarterCreatureObject);
+                    cardLayout.show(cards, "Main Menu");
+                }
+            });
+
+            BrownisaurButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Creature selectedStarterCreatureObject = new Creature("BROWNISAUR", "GRASS", "D", 1);
+                    controller.selectedStarterCreature(selectedStarterCreatureObject);
+                    cardLayout.show(cards, "Main Menu");
+                }
+            });
+
+            FrubatButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Creature selectedStarterCreatureObject = new Creature("FRUBAT", "GRASS", "E", 1);
+                    controller.selectedStarterCreature(selectedStarterCreatureObject);
+                    cardLayout.show(cards, "Main Menu");
+                }
+            });
+
+            MaltsButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Creature selectedStarterCreatureObject = new Creature("MALTS", "GRASS", "F", 1);
+                    controller.selectedStarterCreature(selectedStarterCreatureObject);
+                    cardLayout.show(cards, "Main Menu");
+                }
+            });
+
+            SquirpieButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Creature selectedStarterCreatureObject = new Creature("SQUIRPIE", "WATER", "G", 1);
+                    controller.selectedStarterCreature(selectedStarterCreatureObject);
+                    cardLayout.show(cards, "Main Menu");
+                }
+            });
+
+            ChocoliteButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Creature selectedStarterCreatureObject = new Creature("CHOCOLITE", "WATER", "H", 1);
+                    controller.selectedStarterCreature(selectedStarterCreatureObject);
+                    cardLayout.show(cards, "Main Menu");
+                }
+            }); 
+
+            OshaconeButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Creature selectedStarterCreatureObject = new Creature("OSHACONE", "WATER", "I", 1);
+                    controller.selectedStarterCreature(selectedStarterCreatureObject);
+                    cardLayout.show(cards, "Main Menu");
+                }
+            }); 
+
+        // Add an exit button with a picture
+        JButton exitButton = new JButton();
+        ImageIcon exitImage = new ImageIcon("choose.png");
+        exitButton.setIcon(exitImage);
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0); // Exit the whole program
+            }
+        });
+
+        createStarterSelectionFrame.add(exitButton);
+
+        starterSelectionButton = new JButton("Starter Selection");
+
+        createStarterSelectionFrame.setVisible(true);
+
+        return createStarterSelectionFrame;
+    }
+
+   public void startGame() {
+        Creature selectedStarterCreatureObject = model.getselectedStarterCreatureObject();
+
+        area1Panel = new Area1Panel(cards, model);
+        cards.add(area1Panel, "Area 1 Exploration");
+
+        area2Panel = new Area2Panel(cards);
+        area2Panel.setChosenStarterCreature(selectedStarterCreatureObject);
+        cards.add(area2Panel, "Area 2 Exploration");
+
+        area3Panel = new Area3Panel(cards);
+        area3Panel.setChosenStarterCreature(selectedStarterCreatureObject);
+        cards.add(area3Panel, "Area 3 Exploration");
+
+
+        setContentPane(cards);
+
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+
+    public void updateMainMenuLabel() {
+        String playerName = model.getPlayerName();
+        Creature selectedStarterCreatureObject = model.getselectedStarterCreatureObject();
+
+        StringBuilder labelMessage = new StringBuilder("Hello ").append(playerName).append("!");
+    
+        if (selectedStarterCreatureObject != null) {
+            labelMessage.append(" You chose ").append(selectedStarterCreatureObject.getName()).append(" as your starter creature.");
+        } else {
+            labelMessage.append(" You haven't chosen a starter creature yet.");
+        }
+    
+        labelMessage.append(" You are now ready to explore the world of Pokemon!");
+    
+        activeCreatureLabel.setText(labelMessage.toString());
+    }
+    
+
+    public JButton getStartButton() {
+        return startButton;
+    }
+
+    public JButton getStarterSelectionButton() {
+        return starterSelectionButton;
+    }
+
+    public JPanel createMainMenuPanel() {
+        JPanel mainMenuPanel = new JPanel(new GridLayout(5, 1)) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(backgroundImage.getImage(), 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+    
+        activeCreatureLabel = new JLabel("Hello " + model.getPlayerName() + "!" + getStarterCreatureMessage());
+    
+        JButton exploreButton = new JButton("Explore Area 1, 2, or 3");
+        JButton inventoryButton = new JButton("View Inventory");
+        JButton evolveButton = new JButton("Evolve Creature");
+        JButton exitButton = new JButton("Exit");
+    
+        exploreButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(cards, "Exploration");
+            }
+        });
+    
+        inventoryButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Add view inventory
+                JOptionPane.showMessageDialog(null, "Viewing Inventory  <-- under construction");
+            }
+        });
+    
+        evolveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Add evolve
+                JOptionPane.showMessageDialog(null, "Evolve Creature <-- under construction");
+            }
+        });
+    
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+    
+        mainMenuPanel.add(activeCreatureLabel);
+        mainMenuPanel.add(exploreButton);
+        mainMenuPanel.add(inventoryButton);
+        mainMenuPanel.add(evolveButton);
+        mainMenuPanel.add(exitButton);
+    
+        return mainMenuPanel;
+    }
+    
+    private String getStarterCreatureMessage() {
+        if (model.getselectedStarterCreatureObject() != null) {
+            return " you chose " + model.getselectedStarterCreatureObject().getName() + " as your starter creature.";
+        } else {
+            return " you haven't chosen a starter creature yet.";
+        }
+    }
+
+    public JPanel createExplorationPanel() {
+        JPanel explorationPanel = new JPanel(new GridLayout(4, 1)) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(backgroundImage.getImage(), 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+
+        JButton area1Button = new JButton("Explore Area 1");
+        JButton area2Button = new JButton("Explore Area 2");
+        JButton area3Button = new JButton("Explore Area 3");
+        JButton backButton = new JButton("Back to Main Menu");
+
+        area1Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                area1Panel(cards, model);
+                cardLayout.show(cards, "Area 1 Exploration");
+            }
+        });
+
+        area2Button.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+             area2Panel.setChosenStarterCreature(model.getselectedStarterCreatureObject());
+            cardLayout.show(cards, "Area 2 Exploration");
+        }
+    });
+
+    area3Button.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            area3Panel.setChosenStarterCreature(model.getselectedStarterCreatureObject());
+            cardLayout.show(cards, "Area 3 Exploration");
+        }
+    });
+
+    backButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            cardLayout.show(cards, "Main Menu");
+        }
+    });
+
+    explorationPanel.add(area1Button);
+    explorationPanel.add(area2Button);
+    explorationPanel.add(area3Button);
+    explorationPanel.add(backButton);
+
+    return explorationPanel;
+}
+    public Object getModel() {
+        return null;
+    }
+}
